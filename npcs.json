@@ -1,0 +1,16 @@
+{
+    "npcs":{
+        "brian":{
+            "max_health":100,
+            "damage":30,
+            "markup":1.1,
+            "dialogue":"Hello my name is Brian",
+            "death_dialogue":"arghhh I have died",
+            "fight_dialogue":"Fuck you",
+            "room_unlock":[
+                "mains",
+                "placeholder"
+            ]
+        }
+    }
+}

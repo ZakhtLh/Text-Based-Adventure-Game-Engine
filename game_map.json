@@ -1,0 +1,66 @@
+{
+    "game_map":{
+        "room_connections": {
+            "outside":{
+                "north":"hub",
+                "east":"outside",
+                "south":"outside",
+                "west":"outside"
+            },
+            "hub": {
+                "north": "corridor",
+                "east": "wall",
+                "south": "outside",
+                "west": "wall"
+            },
+            "morrisons":{
+                "north": "morrisons",
+                "east": "morrisons",
+                "south": "corridor",
+                "west": "hall"
+            },
+            "hall":{
+                "north":"mains",
+                "east":"wall",
+                "south":"corridor",
+                "west":"wall"
+            },
+            "mains":{
+                "north":"wall",
+                "east":"wall",
+                "south":"hall",
+                "west":"wall"
+            },
+            "corridor":{
+                "north":"hall",
+                "east":"wall",
+                "south":"hub",
+                "west":"wall"
+            },
+            "wall":{
+                "north":"hall",
+                "east":"morrisons",
+                "south":"hub",
+                "west":"wall"
+            }
+        },
+        "room_properties": {
+            "start_room": "outisde",
+            "end_room": "mains"
+        },
+        "room_descriptions": {
+            "hub": "people are here",
+            "morrisons": "the queue is bloody massive",
+            "outside":"It is rather chilly",
+            "wall":"How did you get here",
+            "corridor":"theres a bunch of people here",
+            "hall":"A rather nice and quiet hall",
+            "mains":"well done you are in main halls"
+        },
+        "story":{
+            "intro_text":"You enter the hub",
+            "death_text":"You have died loser",
+            "end_text":"You have won congrats"
+        }
+    }
+}

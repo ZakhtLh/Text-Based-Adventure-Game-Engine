@@ -1,0 +1,6 @@
+{
+    "player":{
+        "max_health":100,
+        "carry_weight":100
+    }
+}

@@ -2,65 +2,71 @@
     "game_map":{
         "room_connections": {
             "outside":{
-                "north":"hub",
+                "north":"business_school",
                 "east":"outside",
-                "south":"outside",
+                "south":"the_hub",
                 "west":"outside"
             },
-            "hub": {
-                "north": "corridor",
-                "east": "wall",
-                "south": "outside",
+            "the_hub": {
+                "north": "outside",
+                "east": "su_building",
+                "south": "catalyst",
                 "west": "wall"
             },
-            "morrisons":{
-                "north": "morrisons",
-                "east": "morrisons",
-                "south": "corridor",
-                "west": "hall"
+            "catalyst":{
+                "north": "the_hub",
+                "east": "wall",
+                "south": "sports_centre",
+                "west": "su_building"
             },
-            "hall":{
-                "north":"mains",
+            "sports_centre":{
+                "north":"catalyst",
                 "east":"wall",
-                "south":"corridor",
+                "south":"wall",
                 "west":"wall"
             },
-            "mains":{
+            "business_school":{
+                "north":"tech_hub",
+                "east":"wall",
+                "south":"outside",
+                "west":"wall"
+            },
+            "tech_hub":{
                 "north":"wall",
                 "east":"wall",
-                "south":"hall",
-                "west":"wall"
-            },
-            "corridor":{
-                "north":"hall",
-                "east":"wall",
-                "south":"hub",
+                "south":"business_school",
                 "west":"wall"
             },
             "wall":{
-                "north":"hall",
-                "east":"morrisons",
-                "south":"hub",
+                "north":"wall",
+                "east":"wall",
+                "south":"wall",
                 "west":"wall"
+            },
+            "su_building":{
+                "north":"wall",
+                "east":"catalyst",
+                "south":"wall",
+                "west":"the_hub"
             }
         },
         "room_properties": {
-            "start_room": "outisde",
-            "end_room": "mains"
+            "end_room": "sports_centre"
         },
         "room_descriptions": {
-            "hub": "people are here",
-            "morrisons": "the queue is bloody massive",
-            "outside":"It is rather chilly",
-            "wall":"How did you get here",
-            "corridor":"theres a bunch of people here",
-            "hall":"A rather nice and quiet hall",
-            "mains":"well done you are in main halls"
+            "the_hub": "The heart of campus, uaually quite busy",
+            "su_building": "The perfect spot for daydrinking",
+            "outside":"Get inside, it's winter you know",
+            "wall":"A blocked path",
+            "tech_hub":"A nerdy place to learn",
+            "catalyst":"The best library in the world",
+            "business_school":"TRADE SOME STOCKS!!!",
+            "sports_centre":"Prove you're built different"
         },
         "story":{
-            "intro_text":"You enter the hub",
-            "death_text":"You have died loser",
-            "end_text":"You have won congrats"
+            "intro_text":"Welcome to Edge Hill University! Don't get lost",
+            "death_text":"You died, that's no good",
+            "end_text":"You win, congrats pal"
         }
     }
 }

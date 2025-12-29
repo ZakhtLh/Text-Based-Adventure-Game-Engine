@@ -3,81 +3,172 @@
         "game_map":{
             "outside":{
                 "location_npcs":[
-                    "placeholder"
+                    "campus_cat",
+                    "alex"
                 ],
                 "room_inventory":[
-                    "nuke",
-                    "placeholder"
+                    "brick",
+                    "apple"
                 ],
                 "accessible":true 
             },
-            "hub":{
+            "the_hub":{
                 "location_npcs":[
-                    "placeholder"
+                    "subway_worker"
                 ],
                 "room_inventory":[
                     "dagger",
-                    "placeholder"
+                    "business_school_key"
                 ],
                 "accessible":true
             },
-            "morrisons":{
+            "su_building":{
                 "location_npcs":[
-                    "placeholder"
+                    "bar_worker",
+                    "angry_dave"
                 ],
                 "room_inventory":[
-                    "apple",
-                    "placeholder"
+                    "pool_cue"
                 ],
                 "accessible":true
             },
-            "hall":{
+            "tech_hub":{
                 "location_npcs":[
-                    "brian",
-                    "placeholder"
+                    "saad",
+                    "rouge_robot"
                 ],
                 "room_inventory":[
-                    "mains_key",
-                    "placeholder"
+                    "catalyst_key",
+                    "kitkat"
                 ],
                 "accessible":true 
             },
-            "mains":{
+            "business_school":{
                 "location_npcs":[
-                    "placeholder"
+                    "jeff_bezos"
                 ],
                 "room_inventory":[
-                    "placeholder"
+                    "ruler"
                 ],
                 "accessible":false 
             },
-            "corridor":{
+            "catalyst":{
                 "location_npcs":[
-                    "placeholder"
+                    "adam",
+                    "tiger"
                 ],
                 "room_inventory":[
-                    "placeholder"
+                    "coca_cola",
+                    "tazer"
                 ],
-                "accessible":true
+                "accessible":false
             },
             "wall":{
                 "location_npcs":[
-                    "placeholder"
                 ],
                 "room_inventory":[
-                    "placeholder"
                 ],
                 "accessible":false 
+            },
+            "sports_centre":{
+                "location_npcs":[
+                    "mike_tyson"
+                ],
+                "room_inventory":[
+                    "kitkat"
+                ],
+                "accessible":false
             }
         },
         "npcs":{
-            "brian":{
-                "current_health":100,
+            "saad":{
+                "current_health":150,
                 "inventory":[
-                    "dagger",
-                    "placeholder"
+                    "keyboard"
+                ],
+                "coins":30,
+                "agressive":false
+            },
+            "adam":{
+                "current_health":120,
+                "inventory":[
+                    "apple"
                 ],
                 "coins":20,
+                "agressive":false
+            },
+            "tiger":{
+                "current_health":200,
+                "inventory":[
+                    "sports_centre_key"
+                ],
+                "coins":0,
+                "agressive":true
+            },
+            "mike_tyson":{
+                "current_health":500,
+                "inventory":[
+                ],
+                "coins":100,
+                "agressive":true
+            },
+            "jeff_bezos":{
+                "current_health":100,
+                "inventory":[
+                    "amazon_rocket_hammer"
+                ],
+                "coins":200,
+                "agressive":false
+            },
+            "rouge_robot":{
+                "current_health":220,
+                "inventory":[
+                    "sandwich"
+                ],
+                "coins":0,
+                "agressive":true
+            },
+            "angry_dave":{
+                "current_health":100,
+                "inventory":[
+                    "beer"
+                ],
+                "coins":10,
+                "agressive":true
+            },
+            "bar_worker":{
+                "current_health":120,
+                "inventory":[
+                    "beer",
+                    "beer",
+                    "kitkat"
+                ],
+                "coins":50,
+                "agressive":false
+            },
+            "subway_worker":{
+                "current_health":100,
+                "inventory":[
+                    "sandwich",
+                    "sandwich"
+                ],
+                "coins":25,
+                "agressive":false
+            },
+            "alex":{
+                "current_health":80,
+                "inventory":[
+                    "badminton_racket"
+                ],
+                "coins":10,
+                "agressive":false
+            },
+            "campus_cat":{
+                "current_health":20,
+                "inventory":[
+                    "apple"
+                ],
+                "coins":0,
                 "agressive":false
             }
         },
@@ -88,7 +179,6 @@
             "coins":20,
             "current_carry_weight":0,
             "inventory":[
-                "placeholder"
             ]
         }
     }

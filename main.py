@@ -3,15 +3,17 @@ import random
 
 #---Notes---#
 #Make the game have more "milestone" progression to the story
-#Take more stuff from "default_save_file" and less from save_file_'num' and remove the unchaging stuff from the save_file json files
 #Some variable names share a name with a python instruction which is bad practice.
 #Rather messy code
 #Repeated code with only minor differences between them = bad
 #Make a guide on how to create a compatible game through the json files
 #Maybe have error checking if the creator has made an error (i.e "this room does not exist")
-#Don't need start_room in game_map when I have the "current_room" in default save file as the same
 #Implement aggresiveness of npcs
 #parse input is not currently working properly
+
+#Either turn parse validate in just validating that a function exists with that name, remove parse validate and do function existing validation in "action" (or similar), or do a try except.
+#calling npcs with a 2=< word long name doesn't work without including "_" in the input.
+#Add aggressive functonality.
 
 #Programming 1 - CW2 - Group Project:
 #Universally Challenged
@@ -96,11 +98,11 @@ def saved_choice(option):
 def view_npcs(save_file_num):
     save_file_dict=read_save_file(save_file_num)
     current_room=save_file_dict["save_file"]["player"]["current_room"]
-    if save_file_dict["save_file"]["game_map"][current_room]["location_npcs"][0]=="placeholder":
+    if save_file_dict["save_file"]["game_map"][current_room]["location_npcs"]==None:
         print("There are no NPCs in this room")
     else:
-        for npc in save_file_dict["save_file"]["game_map"][current_room]["location_npcs"][:-1]:
-            print(npc.capitalize())
+        for npc in save_file_dict["save_file"]["game_map"][current_room]["location_npcs"]:
+            print(npc.capitalize().replace("_"," "))
 
 def player_options(save_file_num): #Displays the player what their options are and asks for an input
     #Player options
@@ -179,7 +181,8 @@ def item_movement(seperated):
 
 def npc_name(seperated,save_file_dict,current_room):
     if single_command(seperated):
-        if seperated[0] in save_file_dict["save_file"]["game_map"][current_room]["location_npcs"]:
+        print(seperated[0].replace(" ","_"))
+        if seperated[0].replace(" ","_") in save_file_dict["save_file"]["game_map"][current_room]["location_npcs"]:
             seperated.append(seperated[0])
             seperated[0]="npc_interact"
             return(True,seperated)
@@ -249,9 +252,9 @@ def item_stats(item,save_file_num):
 def view_npc_inventory(save_file_num,seperated):
     save_file_dict=read_save_file(save_file_num)
     npcs_dict=read_npcs()
-    if save_file_dict["save_file"]["npcs"][seperated[1]]["inventory"][0]!="placeholder":
+    if save_file_dict["save_file"]["npcs"][seperated[1]]["inventory"]!=None:
         items_dict=read_items()
-        for item in save_file_dict["save_file"]["npcs"][seperated[1]]["inventory"][:-1]:
+        for item in save_file_dict["save_file"]["npcs"][seperated[1]]["inventory"]:
             print(item.replace("_"," ").capitalize())
             item_stats(item,save_file_num)
             print(f"{seperated[1].capitalize()} will sell this item for {round(items_dict["items"][item]["value"]*npcs_dict["npcs"][seperated[1]]["markup"])}")
@@ -472,14 +475,14 @@ def view_weapons(save_file_num):
     save_file_dict=read_save_file(save_file_num)
     item_dict=read_items()
     weapons=[]
-    if save_file_dict["save_file"]["player"]["inventory"][0]=="placeholder":
+    if save_file_dict["save_file"]["player"]["inventory"]==None:
         print("You inventory is empty")
         print("Fists are equipped")
         print()
         save_file_dict["save_file"]["player"]["equipped_item"]="fists"
         return(False,weapons)
     else:
-        for item in save_file_dict["save_file"]["player"]["inventory"][:-1]:
+        for item in save_file_dict["save_file"]["player"]["inventory"]:
             if item_dict["items"][item]["damage"]>0:
                 weapons.append(item)
                 print(f"{item.replace("_", " ").capitalize()} - Damage: {item_dict["items"][item]["damage"]}")
@@ -508,10 +511,12 @@ def equipped_weapon(save_file_num):
 def fight(seperated,exit,save_file_num):
     npc_commands=["attack","block","run","change"]
     choice=""
+    save_file_dict=read_save_file(save_file_num)
+    save_file_dict["save_file"]["npcs"][seperated[1]]["aggressive"]=True
+    update_save_file(save_file_dict,save_file_num)
     equipped_weapon(save_file_num)
     while choice!="run":
         while choice not in npc_commands:
-            save_file_dict=read_save_file(save_file_num)
             item_dict=read_items()
             npcs_dict=read_npcs()
             choice=""
@@ -540,9 +545,9 @@ def fight(seperated,exit,save_file_num):
 def npc_unlock(seperated,save_file_num):
     save_file_dict=read_save_file(save_file_num)
     npcs_dict=read_npcs()
-    if npcs_dict["npcs"][seperated[1]]["room_unlock"][0]!="placeholder":
+    if npcs_dict["npcs"][seperated[1]]["room_unlock"]!=None:
         print("rooms now accessible:")
-        for room in npcs_dict["npcs"][seperated[1]]["room_unlock"][:-1]:
+        for room in npcs_dict["npcs"][seperated[1]]["room_unlock"]:
             save_file_dict["save_file"]["game_map"][room]["accessible"]=True
             print(room.replace("_"," "))
             update_save_file(save_file_dict,save_file_num) #Doesn't seem to be saving for some reason
@@ -572,25 +577,25 @@ def npc_interact(seperated,exit,save_file_num):
 
 def view_inventory(save_file_num):
     save_file_dict=read_save_file(save_file_num)
-    if save_file_dict["save_file"]["player"]["inventory"][0]=="placeholder":
+    if save_file_dict["save_file"]["player"]["inventory"]==None:
         print("You inventory is empty")
         print()
         return(False)
     else:
-        for item in save_file_dict["save_file"]["player"]["inventory"][:-1]:
+        for item in save_file_dict["save_file"]["player"]["inventory"]:
             print(item.replace("_"," ").capitalize())
         print()
         return(True)
     
 def view_inventory_sell(save_file_num,seperated):
     save_file_dict=read_save_file(save_file_num)
-    if save_file_dict["save_file"]["player"]["inventory"][0]=="placeholder":
+    if save_file_dict["save_file"]["player"]["inventory"]==None:
         print("You inventory is empty")
         print()
         return(False)
     else:
         items_dict=read_items()
-        for item in save_file_dict["save_file"]["player"]["inventory"][:-1]:
+        for item in save_file_dict["save_file"]["player"]["inventory"]:
             print(item.replace("_"," ").capitalize())
             item_stats(item,save_file_num)
             print(f"{seperated[1].capitalize()} will buy this item for {items_dict["items"][item]["value"]}")
@@ -601,13 +606,13 @@ def view_inventory_sell(save_file_num,seperated):
 def view(seperated,exit,save_file_num):
     if seperated[1]=="stats":
         save_file_dict=read_save_file(save_file_num)
-        if save_file_dict["save_file"]["player"]["inventory"][0]=="placeholder":
+        if save_file_dict["save_file"]["player"]["inventory"]==None:
             print("You inventory is empty")
             print()
             return(False)
         else:
             items_dict=read_items()
-            for item in save_file_dict["save_file"]["player"]["inventory"][:-1]:
+            for item in save_file_dict["save_file"]["player"]["inventory"]:
                 print(item.replace("_"," ").capitalize())
                 item_stats(item,save_file_num)
                 print()
@@ -636,9 +641,9 @@ def go(seperated,exit,save_file_num):
 
 def drop(seperated,exit,save_file_num):
     save_file_dict=read_save_file(save_file_num)
-    if save_file_dict["save_file"]["player"]["inventory"][0]!="placeholder": #Checking that the player has items in their inventory
+    if save_file_dict["save_file"]["player"]["inventory"]!=None: #Checking that the player has items in their inventory
         item_to_drop=seperated[1]
-        if item_to_drop in save_file_dict["save_file"]["player"]["inventory"] and item_to_drop!="placeholder": #Checks if the given item to drop is in the players inventory
+        if item_to_drop in save_file_dict["save_file"]["player"]["inventory"] and item_to_drop!="": #Checks if the given item to drop is in the players inventory
             remove_item(item_to_drop,save_file_num)#Removes the earliest of that item in the list from the players inventory
             save_file_dict=read_save_file(save_file_num)
             current_room=save_file_dict["save_file"]["player"]["current_room"]
@@ -655,20 +660,20 @@ def drop(seperated,exit,save_file_num):
 def view_dropped_items(save_file_num):
     save_file_dict=read_save_file(save_file_num)
     current_room=save_file_dict["save_file"]["player"]["current_room"]
-    if save_file_dict["save_file"]["game_map"][current_room]["room_inventory"][0]=="placeholder":
+    if save_file_dict["save_file"]["game_map"][current_room]["room_inventory"]==None:
         print("This room has not dropped items...")
         print()
     else:
-        for item in save_file_dict["save_file"]["game_map"][current_room]["room_inventory"][:-1]:
+        for item in save_file_dict["save_file"]["game_map"][current_room]["room_inventory"]:
             print(item.replace("_", " ").capitalize())
         print()
 
 def pickup(seperated,exit,save_file_num):
     save_file_dict=read_save_file(save_file_num)
     current_room=save_file_dict["save_file"]["player"]["current_room"]
-    if save_file_dict["save_file"]["game_map"][current_room]["room_inventory"][0]!="placeholder": #Checking that the current room has any items dropped in it
+    if save_file_dict["save_file"]["game_map"][current_room]["room_inventory"]!=None: #Checking that the current room has any items dropped in it
         item_to_pickup=seperated[1]
-        if item_to_pickup in save_file_dict["save_file"]["game_map"][current_room]["room_inventory"] and item_to_pickup!="placeholder": #Checking if the given item to pickup is dropped in the current room
+        if item_to_pickup in save_file_dict["save_file"]["game_map"][current_room]["room_inventory"] and item_to_pickup!="": #Checking if the given item to pickup is dropped in the current room
             if add_item(item_to_pickup,save_file_num):
                 save_file_dict=read_save_file(save_file_num)
                 save_file_dict["save_file"]["game_map"][current_room]["room_inventory"].remove(item_to_pickup) #Removing the item from the items dropped in the room
